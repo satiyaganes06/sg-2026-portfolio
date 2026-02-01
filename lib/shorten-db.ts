@@ -1,39 +1,29 @@
-import path from "node:path";
-import fs from "node:fs";
-import { open } from "sqlite";
-import sqlite3 from "sqlite3";
+import { neon } from "@neondatabase/serverless";
 import { customAlphabet } from "nanoid";
 
-const dir = path.join(process.cwd(), ".data");
-const dbPath = path.join(dir, "shorten.db");
+const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+if (!connectionString) throw new Error("DATABASE_URL or POSTGRES_URL is required");
+
+const sql = neon(connectionString);
 
 const alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 const nanoid = customAlphabet(alphabet, 8);
 
-async function getDb() {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  const db = await open({ filename: dbPath, driver: sqlite3.Database });
-  await db.exec(`
-    CREATE TABLE IF NOT EXISTS links (
+export async function createLink(url: string, userBrowser?: string): Promise<{ id: string; url: string }> {
+  await sql`
+    CREATE TABLE IF NOT EXISTS shorten_link (
       id TEXT PRIMARY KEY,
-      url TEXT NOT NULL,
-      created_at INTEGER NOT NULL DEFAULT (unixepoch())
+      link TEXT NOT NULL,
+      timestamp TIMESTAMPTZ DEFAULT NOW(),
+      user_browser TEXT
     )
-  `);
-  return db;
-}
-
-export async function createLink(url: string): Promise<{ id: string; url: string }> {
-  const db = await getDb();
+  `;
   const id = nanoid();
-  await db.run("INSERT INTO links (id, url) VALUES (?, ?)", [id, url]);
-  await db.close();
+  await sql`INSERT INTO shorten_link (id, link, user_browser) VALUES (${id}, ${url}, ${userBrowser ?? null})`;
   return { id, url };
 }
 
 export async function getLinkById(id: string): Promise<string | null> {
-  const db = await getDb();
-  const row = await db.get<{ url: string }>("SELECT url FROM links WHERE id = ?", [id]);
-  await db.close();
-  return row?.url ?? null;
+  const rows = await sql`SELECT link FROM shorten_link WHERE id = ${id}`;
+  return (rows[0] as { link: string } | undefined)?.link ?? null;
 }

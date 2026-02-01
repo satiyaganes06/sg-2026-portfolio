@@ -98,7 +98,7 @@ export default function ShortenLinkWindow() {
                   href={short}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 truncate text-red-400 hover:text-red-300 text-sm font-mono"
+                  className="flex-1 truncate text-green-500 hover:text-green-400 text-sm font-mono"
                 >
                   {short}
                 </a>

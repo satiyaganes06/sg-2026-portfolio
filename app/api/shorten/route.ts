@@ -20,7 +20,8 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    const { id } = await createLink(url);
+    const userBrowser = req.headers.get("user-agent") ?? undefined;
+    const { id } = await createLink(url, userBrowser);
     const base = process.env.NEXT_PUBLIC_APP_URL || req.nextUrl.origin;
     const shortUrl = `${base.replace(/\/$/, "")}/shorten/${id}`;
     return NextResponse.json({ shortUrl, id });
