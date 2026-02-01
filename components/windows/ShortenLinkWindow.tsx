@@ -69,7 +69,7 @@ export default function ShortenLinkWindow() {
         <div className="w-full max-w-lg mx-auto space-y-6">
           <div className="text-center space-y-1">
             <h1 className="text-2xl font-bold text-white tracking-tight">Shorten Link</h1>
-            <p className="text-zinc-500 text-sm">Paste a URL to create a short link (stored in SQLite)</p>
+              <p className="text-zinc-500 text-sm">Paste a URL to create a short link</p>
           </div>
           <div className="space-y-3">
             <input
