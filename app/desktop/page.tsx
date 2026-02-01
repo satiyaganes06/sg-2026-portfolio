@@ -294,7 +294,7 @@ export default function DesktopOSPage() {
                   lineHeight: '0.9'
                 }}
               >
-                <span className="text-red-500">S</span>ourish <span className="text-red-500">G</span>hosh
+                <span className="text-red-500">S</span>atiya <span className="text-red-500">G</span>anes
               </h1>
 
               {/* Tagline - Responsive */}
@@ -329,18 +329,27 @@ export default function DesktopOSPage() {
          >
           <TechStackStrip
             items={[
-              "Next.js",
-              "React",
-              "TypeScript",
+              "Flutter",
+              "Laravel",
+              "Dart",
               "Tailwind CSS",
-              "Node.js",
-              "Express.js",
-              "Vercel",
-              "Supabase",
+              "PHP",  
+              "Getx",
+              "Provider",
+              "Riverpod",
+              "Kotlin",
+              "Java",
+              "MySQL",
               "PostgreSQL",
-              "Framer Motion",
-              "JWT",
-              "Redis"
+              "Oracle",
+              "Firebase",
+              "Git",
+              "GitHub",
+              "GitLab",
+              "Docker",
+              "Postman",
+              "Java SE",
+              "C"
             ]}
             duration={25}
             pauseOnHover={false}

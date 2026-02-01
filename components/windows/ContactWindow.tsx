@@ -12,11 +12,7 @@ export default function ContactWindow() {
     ...(s.twitter ? [{ name: "Twitter", url: s.twitter }] : []),
     ...(s.instagram ? [{ name: "Instagram", url: s.instagram }] : []),
     ...(s.resume ? [{ name: "Resume", url: s.resume }] : []),
-    ...(s.medium ? [{ name: "Medium", url: s.medium }] : []),
-    ...(s.stackoverflow ? [{ name: "Stack Overflow", url: s.stackoverflow }] : []),
-    ...(s.discord ? [{ name: "Discord", url: s.discord }] : []),
     { name: "Email", url: `mailto:${profile.contact.email_masked}` },
-    { name: "Phone", url: profile.contact.phone_masked },
   ];
 
   return (

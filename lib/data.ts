@@ -242,7 +242,7 @@ export const PROFILE: Profile = {
   tagline: "Software Developer · Flutter · Laravel · API · Mobile Security",
   about: "Software Developer with expertise in Flutter (Android, iOS), Laravel, API development, and Mobile Security. Led backend development for mobile apps and contributed to award-winning projects in coding challenges. Experienced in teaching and improving system efficiency through innovative solutions. Proven ability to work with cross-functional teams to deliver seamless product experiences and manage feature development.",
   contact: {
-    email_masked: "sgdevelopercompany@gmail.com",
+    email_masked: "satiyaganes.sg@gmail.com",
     phone_masked: "+601163348685",
     open_to: "Open to Freelancing",
   },
@@ -250,9 +250,6 @@ export const PROFILE: Profile = {
     github: "https://github.com/satiyaganes06",
     linkedin: "https://www.linkedin.com/in/satiya-ganes-b0a315209/",
     resume: "https://firebasestorage.googleapis.com/v0/b/mad-mini-project-c822d.appspot.com/o/cv.pdf?alt=media&token=4400d475-c64c-4299-bbd4-a42c069e9798",
-    medium: "https://yelwino.medium.com/",
-    stackoverflow: "https://stackoverflow.com/users/19209151/ye-lwin-oo",
-    discord: "https://discordapp.com/users/809527318632071178",
   },
   education: { summary: "Universiti Malaysia Pahang Al-Sultan Abdullah — Bachelor of Computer Science (Software Engineering) with Honours, CGPA 3.62; Diploma in Computer Science, CGPA 3.62." },
   roles: ["Software Developer", "Flutter Developer", "Laravel Developer", "Mobile Security Engineer", "Full Stack Mobile Developer"],
@@ -265,9 +262,6 @@ export type Song = {
 };
 
 export const SONGS: Song[] = [
-  { title: "My Eyes", artist: "Travis Scott" },
-  { title: "No Pole", artist: "Don Toliver" },
-  { title: "Dracula", artist: "Tame Impala" },
   { title: "Humble", artist: "Kendrick Lamar" },
   { title: "Softcore", artist: "The Neighbourhood" },
   { title: "Runaway", artist: "Kanye West" },
@@ -291,7 +285,7 @@ export type Task = {
 export const TASKS: Task[] = [
   { id: 1, title: "Running high on Flutter", completed: false },
   { id: 2, title: "May God shed light when i debug", completed: false },
-  { id: 3, title: "Coffee first, code second", completed: false },
+  { id: 3, title: "Eat first, code second", completed: false },
   { id: 4, title: "Exploring 80's & 90's music", completed: false },
   { id: 5, title: "Reading & Movies", completed: false },
   { id: 6, title: "Open to freelance projects", completed: false },
@@ -301,8 +295,7 @@ export const TASKS: Task[] = [
 export type Hobby = string;
 
 export const HOBBIES: Hobby[] = [
-  "Coffee",
-  "Reading",
+  "Traveling",
   "80's & 90's Music",
   "Movies",
   "Exploring more...",
