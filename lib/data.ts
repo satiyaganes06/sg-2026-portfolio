@@ -47,6 +47,7 @@ export type Profile = {
     phone_masked: string;
     open_to: string;
   };
+  location?: string; // e.g. "Odisha, India" or "Malaysia"
   socials: {
     github: string;
     linkedin: string;
@@ -246,9 +247,11 @@ export const PROFILE: Profile = {
     phone_masked: "+601163348685",
     open_to: "Open to Freelancing",
   },
+  location: "Malaysia",
   socials: {
     github: "https://github.com/satiyaganes06",
     linkedin: "https://www.linkedin.com/in/satiya-ganes-b0a315209/",
+    twitter: "https://twitter.com/satiyaganes06",
     resume: "https://firebasestorage.googleapis.com/v0/b/mad-mini-project-c822d.appspot.com/o/cv.pdf?alt=media&token=4400d475-c64c-4299-bbd4-a42c069e9798",
   },
   education: { summary: "Universiti Malaysia Pahang Al-Sultan Abdullah — Bachelor of Computer Science (Software Engineering) with Honours, CGPA 3.62; Diploma in Computer Science, CGPA 3.62." },

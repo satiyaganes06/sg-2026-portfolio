@@ -48,11 +48,11 @@ const DesktopDock: React.FC<DesktopDockProps> = ({
     return (
         <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-50">
            <TooltipProvider>
-            <Dock magnification={80} distance={100} iconSize={56} layout className= "border border-zinc-700 bg-zinc-900 shadow-[0_10px_30px_rgba(0,0,0,0.4)] min-w-[300px] flex items-center justify-center">
+            <Dock magnification={80} distance={100} iconSize={56} layout className="border border-zinc-300 dark:border-zinc-700 bg-white/90 dark:bg-zinc-900 backdrop-blur-sm shadow-lg dark:shadow-[0_10px_30px_rgba(0,0,0,0.4)] min-w-[300px] flex items-center justify-center">
               {appsToRender.map((app) => {
                  const isOpen = openWindows[app.appType as WindowAppType];
                  return (
-                  <DockIcon key={app.id} className="bg-black/10 dark:bg-white/10 p-3 rounded-full size-10 sm:size-12 md:size-14">
+                  <DockIcon key={app.id} className="bg-zinc-200/80 dark:bg-black/20 p-3 rounded-full size-10 sm:size-12 md:size-14">
                      <Tooltip>
                         <TooltipTrigger asChild>
                           <div 
@@ -72,7 +72,7 @@ const DesktopDock: React.FC<DesktopDockProps> = ({
                            </div>
                            {/* Active Indicator */}
                             {isOpen && (
-                                <div className="absolute -bottom-2 w-1 h-1 bg-white/80 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
+                                <div className="absolute -bottom-2 w-1 h-1 bg-zinc-600 dark:bg-white/80 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.3)] dark:shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
                             )}
                           </div>
                         </TooltipTrigger>

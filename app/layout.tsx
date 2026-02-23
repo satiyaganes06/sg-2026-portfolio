@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Walter_Turncoat } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -25,11 +26,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.variable} ${walterTurncoat.variable} antialiased font-mono bg-black`}
-        suppressHydrationWarning
-      >
-        {children}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(){var t=localStorage.getItem("theme");var d=window.matchMedia("(prefers-color-scheme: dark)").matches;var m=t==="light"||t==="dark"?t:(d?"dark":"light");document.documentElement.classList.add(m);})();`,
+        }}
+      />
+      <body className={`${inter.variable} ${walterTurncoat.variable} antialiased font-mono bg-background text-foreground`} suppressHydrationWarning>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

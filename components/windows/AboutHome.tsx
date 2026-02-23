@@ -105,6 +105,18 @@ export default function AboutHome({ onOpen }: { onOpen: OpenAppFn }) {
               variants={itemVariants}
               className={isMobile ? "pl-0" : "pl-2"}
             >
+                {/* <div className="flex items-center gap-6 mb-6"> */}
+                  <div className="flex items-center gap-6 mb-6">
+                    <img
+                      src={"/my_photo.jpg"}
+                      alt={profile.name}
+                      className={`${isMobile ? "w-20 h-20" : "w-50 h-50"} rounded-full object-cover border-4 border-white/10 shadow-lg`}
+                      width={isMobile ? 80 : 128}
+                      height={isMobile ? 80 : 128}
+                      loading="eager"
+                    />
+                  </div>
+                {/* </div> */}
                 <div className="mb-6">
                   <h2 className={`${isMobile ? 'text-3xl' : 'text-5xl'} font-black text-white mb-4 tracking-tight`}>Hi, I&apos;m {profile.name}!</h2>
                   <p className={`${isMobile ? 'text-xl' : 'text-2xl'} text-zinc-400 font-light max-w-2xl`}>{profile.tagline}</p>

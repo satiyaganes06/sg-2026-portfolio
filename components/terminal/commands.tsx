@@ -95,10 +95,10 @@ export const commands: Record<string, CommandHandler> = {
         <div>Get in touch with me</div>
         <div className="text-green-400">resume</div>
         <div>View my resume</div>
-        <div className="text-green-400">starblade</div>
-        <div>Play StarBlade - Space Shooter</div>
-        <div className="text-green-400">spawn</div>
-        <div>It&#39;s a secret</div>
+        {/* <div className="text-green-400">starblade</div>
+        <div>Play StarBlade - Space Shooter</div> */}
+        {/* <div className="text-green-400">spawn</div>
+        <div>It&#39;s a secret</div> */}
         <div className="text-green-400">clear</div>
         <div>Clear terminal (Ctrl/Cmd+L)</div>
         <div className="text-green-400">zen</div>
