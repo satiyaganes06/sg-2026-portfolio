@@ -22,7 +22,7 @@ export default function ContactWindow() {
           {/* Header */}
           <div className="text-center space-y-2 mt-8 sm:mt-0">
             <h1 className="text-3xl font-black text-white tracking-tight">Get in Touch</h1>
-            <p className="text-zinc-400 text-base">Just say Hello to collaborate! I&apos;m available for Freelancing.</p>
+            <p className="text-zinc-400 text-base">Open to remote roles globally. Flexible with time zones — let&apos;s connect!</p>
           </div>
 
           {/* Social Links Grid */}

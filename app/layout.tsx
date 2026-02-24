@@ -15,8 +15,9 @@ const walterTurncoat = Walter_Turncoat({
 });
 
 export const metadata: Metadata = {
-  title: "Shatthiya Ganes",
-  description: "Portfolio of Shatthiya Ganes — Software Developer",
+  title: "Portfolio of sG",
+  description: "Shatthiya Ganes — Full Stack Developer open to overseas & remote roles. Flutter, Laravel, Mobile Security. Based in Malaysia, available worldwide.",
+  icons: { icon: "/sg_logo.ico" },
 };
 
 export default function RootLayout({

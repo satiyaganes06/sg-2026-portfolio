@@ -345,7 +345,7 @@ export default function DesktopOSPage() {
                 </a>
                 <div className={cardClass}>
                   <MapPin className="w-5 h-5 shrink-0 text-zinc-600 dark:text-zinc-400" />
-                  <div className="min-w-0 flex-1 flex items-center justify-between w-full"><span><p className="font-semibold text-zinc-900 dark:text-zinc-100">{profile.location ?? "Remote"}</p><p className="text-sm text-zinc-600 dark:text-zinc-400">Remote Available</p></span><ArrowUpRight className="w-4 h-4 shrink-0 text-zinc-400 dark:text-zinc-500" /></div>
+                  <div className="min-w-0 flex-1 flex items-center justify-between w-full"><span><p className="font-semibold text-zinc-900 dark:text-zinc-100">{profile.location ?? "Remote"}</p><p className="text-sm text-zinc-600 dark:text-zinc-400">{profile.locationNote ?? "Remote · Worldwide"}</p></span><ArrowUpRight className="w-4 h-4 shrink-0 text-zinc-400 dark:text-zinc-500" /></div>
                 </div>
               </div>
             </div>

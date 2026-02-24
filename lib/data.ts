@@ -47,7 +47,8 @@ export type Profile = {
     phone_masked: string;
     open_to: string;
   };
-  location?: string; // e.g. "Odisha, India" or "Malaysia"
+  location?: string;
+  locationNote?: string; // e.g. "Remote · Open to Relocation"
   socials: {
     github: string;
     linkedin: string;
@@ -241,13 +242,14 @@ export const PROFILE: Profile = {
   name: "Shatthiya Ganes",
   handle: "satiyaganes06",
   tagline: "Software Developer · Flutter · Laravel · API · Mobile Security",
-  about: "Software Developer with expertise in Flutter (Android, iOS), Laravel, API development, and Mobile Security. Led backend development for mobile apps and contributed to award-winning projects in coding challenges. Experienced in teaching and improving system efficiency through innovative solutions. Proven ability to work with cross-functional teams to deliver seamless product experiences and manage feature development.",
+  about: "Software Developer with expertise in Flutter (Android, iOS), Laravel, API development, and Mobile Security. Open to remote roles globally and flexible with time zones. Led backend development for mobile apps and contributed to award-winning projects. Proven ability to work with cross-functional teams to deliver seamless product experiences and manage feature development.",
   contact: {
     email_masked: "satiyaganes.sg@gmail.com",
     phone_masked: "+601163348685",
-    open_to: "Open to Freelancing",
+    open_to: "Open to Overseas Roles",
   },
   location: "Malaysia",
+  locationNote: "Remote · Open to Relocation",
   socials: {
     github: "https://github.com/satiyaganes06",
     linkedin: "https://www.linkedin.com/in/satiya-ganes-b0a315209/",
@@ -291,7 +293,7 @@ export const TASKS: Task[] = [
   { id: 3, title: "Eat first, code second", completed: false },
   { id: 4, title: "Exploring 80's & 90's music", completed: false },
   { id: 5, title: "Reading & Movies", completed: false },
-  { id: 6, title: "Open to freelance projects", completed: false },
+  { id: 6, title: "Open to overseas & remote roles", completed: false },
 ];
 
 // ===== HOBBIES =====
