@@ -255,7 +255,7 @@ export const PROFILE: Profile = {
     resume: "https://firebasestorage.googleapis.com/v0/b/mad-mini-project-c822d.appspot.com/o/cv.pdf?alt=media&token=4400d475-c64c-4299-bbd4-a42c069e9798",
   },
   education: { summary: "Universiti Malaysia Pahang Al-Sultan Abdullah — Bachelor of Computer Science (Software Engineering) with Honours, CGPA 3.62; Diploma in Computer Science, CGPA 3.62." },
-  roles: ["Software Developer", "Flutter Developer", "Laravel Developer", "Mobile Security Engineer", "Full Stack Mobile Developer"],
+  roles: ["Full Stack Developer", "Flutter Developer", "Laravel Developer", "Mobile Security Engineer", "Full Stack Mobile Developer"],
 };
 
 // ===== SONGS (Now Listening Widget) =====

@@ -142,6 +142,15 @@ export default function DesktopOSPage() {
   // Zen mode for terminal
   const [zenMode, setZenMode] = useState(false);
 
+  // Role rotator for hero
+  const [roleIndex, setRoleIndex] = useState(0);
+  useEffect(() => {
+    const roles = getProfile().roles ?? [getProfile().tagline.split(" · ")[0]];
+    if (roles.length <= 1) return;
+    const id = setInterval(() => setRoleIndex(i => (i + 1) % roles.length), 3000);
+    return () => clearInterval(id);
+  }, []);
+
   // Widget Layout - Using Responsive System
   const desktopItems: DesktopItem[] = useMemo(() => {
     // Hide widgets in zen mode
@@ -278,6 +287,8 @@ export default function DesktopOSPage() {
         {/* Hero + Info Cards - Hidden in Zen Mode */}
         {!zenMode && (() => {
           const profile = getProfile();
+          const roles = profile.roles ?? [profile.tagline.split(" · ")[0]];
+          const currentRole = roles[roleIndex % roles.length];
           const heroTop = width < 768 ? 100 : responsiveConfig.heroTop - 40;
           const copyEmail = () => { navigator.clipboard.writeText(profile.contact.email_masked); };
           const cardClass = "rounded-xl border border-zinc-200/80 dark:border-zinc-700/80 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm p-5 flex items-start gap-3 transition hover:bg-white dark:hover:bg-zinc-900";
@@ -294,7 +305,11 @@ export default function DesktopOSPage() {
                 </span>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">Hello, I&apos;m {profile.name}.</h1>
-              <p className="text-xl font-semibold text-zinc-800 dark:text-zinc-200 mb-4">{profile.roles?.[0] ?? profile.tagline.split(" · ")[0]}.</p>
+              <div className="h-8 overflow-hidden mb-4">
+                <AnimatePresence mode="wait">
+                  <motion.p key={currentRole} initial={{ y: 24, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -24, opacity: 0 }} transition={{ duration: 0.35 }} className="text-xl font-semibold text-zinc-800 dark:text-zinc-200">{currentRole}.</motion.p>
+                </AnimatePresence>
+              </div>
               <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-8 max-w-lg">{profile.about.slice(0, 160)}…</p>
               <div className="flex flex-wrap gap-3 mb-8">
                 <motion.button onClick={() => openWindow("contact")} className="inline-flex items-center gap-2 rounded-lg bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 px-4 py-2.5 text-sm font-medium hover:bg-zinc-800 dark:hover:bg-zinc-200" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
