@@ -25,7 +25,7 @@ export const dockApps: DockApp[] = [
     { id: "skills", name: "Skills", icon: "skills", appType: "skills" },
     { id: "contact", name: "Contact", icon: "contact", appType: "contact" },
     { id: "terminal", name: "Terminal", icon: "terminal", appType: "terminal" },
-    { id: "shorten", name: "Shorten Link", icon: "shorten", appType: "shorten" },
+    { id: "shorten", name: "Shorten & Photo QR", icon: "shorten", appType: "shorten" },
 ]
 
 interface DesktopDockProps {

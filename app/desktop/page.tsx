@@ -238,7 +238,7 @@ export default function DesktopOSPage() {
     projects: { title: "Projects", render: () => <ProjectsWindow /> },
     skills: { title: "Skills", render: () => <SkillsWindow /> },
     contact: { title: "Contact / Socials", render: () => <ContactWindow /> },
-    shorten: { title: "Shorten Link", render: () => <ShortenLinkWindow /> },
+    shorten: { title: "Shorten & Photo QR", render: () => <ShortenLinkWindow /> },
     terminal: { 
       title: "Terminal", 
       render: () => (
@@ -443,7 +443,7 @@ export default function DesktopOSPage() {
                 backgroundColor={appType === 'terminal' ? "#09090b" : undefined} // zinc-950 for terminal background
                 
                 initialSize={
-                  appType === 'shorten' ? { width: Math.min(440, width * 0.9), height: Math.min(420, height * 0.7) } : 
+                  appType === 'shorten' ? { width: Math.min(440, width * 0.9), height: Math.min(640, height * 0.78) } : 
                   undefined
                 }
                 hidePadding={appType === 'shorten' || (appType === 'terminal')} // Terminal handles its own padding
