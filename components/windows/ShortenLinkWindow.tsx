@@ -83,15 +83,19 @@ export default function ShortenLinkWindow() {
     qrContainerRef.current.innerHTML = "";
     const root = typeof window !== "undefined" ? window.location.origin : "";
     const imageSrc = `${root}${PHOTO_QR_ASSET}`;
+    // High internal resolution so the center photo isn’t a tiny bitmap (blur on Retina / export).
+    const displayPx = 280;
+    const dpr = typeof window !== "undefined" ? Math.min(3, Math.max(2, window.devicePixelRatio || 2)) : 2;
+    const internal = Math.round(displayPx * dpr);
     const qr = new QRCodeStyling({
-      width: 280,
-      height: 280,
+      width: internal,
+      height: internal,
       type: "canvas",
       data,
       margin: 4,
       qrOptions: { errorCorrectionLevel: "H" },
       image: imageSrc,
-      imageOptions: { hideBackgroundDots: true, imageSize: 0.32, margin: 6, crossOrigin: "anonymous" },
+      imageOptions: { hideBackgroundDots: true, imageSize: 0.7, margin: 8, crossOrigin: "anonymous" },
       dotsOptions: { type: "square", color: "#000000" },
       backgroundOptions: { color: "#ffffff" },
       cornersSquareOptions: { type: "square", color: "#000000" },
@@ -99,6 +103,13 @@ export default function ShortenLinkWindow() {
     });
     qr.append(qrContainerRef.current);
     qrInstanceRef.current = qr;
+    requestAnimationFrame(() => {
+      const el = qrContainerRef.current?.querySelector("canvas");
+      if (el) {
+        el.style.width = `${displayPx}px`;
+        el.style.height = `${displayPx}px`;
+      }
+    });
   }, []);
 
   const generatePhotoQr = () => {
@@ -221,7 +232,7 @@ export default function ShortenLinkWindow() {
             </div>
             {qrError && <p className="text-red-400/90 text-sm text-center">{qrError}</p>}
             <div className="flex justify-center p-4 rounded-xl bg-white border border-white/10 shadow-inner">
-              <div ref={qrContainerRef} className="inline-block [&_canvas]:max-w-full [&_canvas]:h-auto" />
+              <div ref={qrContainerRef} className="inline-block leading-none" />
             </div>
             <p className="text-zinc-600 text-xs text-center">Uses high error correction so the code still scans with the center image. Photo: <code className="text-zinc-500">{PHOTO_QR_ASSET}</code></p>
           </div>
