@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   description: "Shatthiya Ganes — Full Stack Developer open to overseas & remote roles. Flutter, Laravel, Mobile Security. Based in Malaysia, available worldwide.",
   icons: { icon: "/sg_logo.ico" },
   openGraph: {
-    title: "Portfolio of sG",
+    title: "Portfolio of Satiya Ganes",
     description: "Shatthiya Ganes — Full Stack Developer open to overseas & remote roles. Flutter, Laravel, Mobile Security. Based in Malaysia, available worldwide.",
     images: "/og.jpeg",
   }
@@ -32,6 +32,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <link
+        rel="stylesheet"
+        href="https://db.onlinewebfonts.com/c/5ac3fe7c6abd2f62067f266d89671492?family=HelveticaNowDisplay-Medium"
+      />
+      <link
+        rel="stylesheet"
+        href="https://db.onlinewebfonts.com/c/1aa3377e489837a26d019bba501e779d?family=HelveticaNowDisplayW01-Rg"
+      />
       <script
         dangerouslySetInnerHTML={{
           __html: `(function(){var t=localStorage.getItem("theme");var m=t==="light"||t==="dark"?t:"dark";document.documentElement.classList.add(m);})();`,

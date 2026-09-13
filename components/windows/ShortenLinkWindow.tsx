@@ -144,7 +144,7 @@ export default function ShortenLinkWindow() {
 
   return (
     <div className="h-full flex flex-col relative z-50">
-      <div className="shrink-0 flex gap-1 p-2 border-b border-white/10">
+      <div className="shrink-0 flex gap-1 p-2 border-b border-zinc-200">
         {(
           [
             ["shorten", "Shorten", Link2],
@@ -156,7 +156,7 @@ export default function ShortenLinkWindow() {
             type="button"
             onClick={() => { setTab(id); setError(null); setQrError(null); }}
             className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-colors ${
-              tab === id ? "bg-red-500/20 text-red-400 border border-red-500/30" : "text-zinc-400 hover:text-white hover:bg-white/5 border border-transparent"
+              tab === id ? "bg-red-50 text-red-600 border border-red-200" : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 border border-transparent"
             }`}
           >
             <Icon className="w-4 h-4" /> {label}
@@ -168,7 +168,7 @@ export default function ShortenLinkWindow() {
         {tab === "shorten" ? (
           <div className="w-full max-w-lg mx-auto space-y-6">
             <div className="text-center space-y-1">
-              <h1 className="text-2xl font-bold text-white tracking-tight">Shorten Link</h1>
+              <h1 className="text-2xl font-bold text-zinc-900 tracking-tight">Shorten Link</h1>
               <p className="text-zinc-500 text-sm">Paste a URL to create a short link</p>
             </div>
             <div className="space-y-3">
@@ -178,38 +178,38 @@ export default function ShortenLinkWindow() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && shorten()}
-                className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-white/10 text-white placeholder-zinc-500 focus:border-red-500/50 focus:outline-none focus:ring-1 focus:ring-red-500/30 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-white border border-zinc-200 text-zinc-900 placeholder-zinc-500 focus:border-red-300 focus:outline-none focus:ring-1 focus:ring-red-200 transition-colors"
                 disabled={loading}
               />
               <button
                 type="button"
                 onClick={shorten}
                 disabled={loading}
-                className="w-full py-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-400 font-medium border border-red-500/30 hover:border-red-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                className="w-full py-3 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 font-medium border border-red-200 hover:border-red-300 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               >
                 {loading ? "Shortening…" : "Shorten"}
               </button>
             </div>
-            {error && <p className="text-red-400/90 text-sm text-center">{error}</p>}
+            {error && <p className="text-red-600 text-sm text-center">{error}</p>}
             {short && (
-              <div className="p-4 rounded-xl bg-zinc-900/50 border border-white/5 space-y-3">
+              <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 space-y-3">
                 <p className="text-zinc-500 text-xs uppercase tracking-wider">Short link</p>
                 <div className="flex gap-2">
                   <a href={short} target="_blank" rel="noopener noreferrer" className="flex-1 truncate text-green-500 hover:text-green-400 text-sm font-mono">
                     {short}
                   </a>
-                  <button type="button" onClick={copy} className="shrink-0 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-zinc-300 hover:text-white text-xs font-medium border border-white/10 transition-colors">
+                  <button type="button" onClick={copy} className="shrink-0 px-3 py-1.5 rounded-lg bg-zinc-100 hover:bg-zinc-200 text-zinc-700 hover:text-zinc-900 text-xs font-medium border border-zinc-200 transition-colors">
                     {copied ? "Copied" : "Copy"}
                   </button>
                 </div>
-                <p className="text-zinc-600 text-xs">Visiting this link redirects to the original URL.</p>
+                <p className="text-zinc-400 text-xs">Visiting this link redirects to the original URL.</p>
               </div>
             )}
           </div>
         ) : (
           <div className="w-full max-w-lg mx-auto space-y-5">
             <div className="text-center space-y-1">
-              <h1 className="text-2xl font-bold text-white tracking-tight">Photo QR</h1>
+              <h1 className="text-2xl font-bold text-zinc-900 tracking-tight">Photo QR</h1>
               <p className="text-zinc-500 text-sm">Scannable QR with your photo in the center — points to any URL</p>
             </div>
             <div className="space-y-3">
@@ -219,22 +219,22 @@ export default function ShortenLinkWindow() {
                 value={qrUrl}
                 onChange={(e) => setQrUrl(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && generatePhotoQr()}
-                className="w-full px-4 py-3 rounded-xl bg-zinc-900/80 border border-white/10 text-white placeholder-zinc-500 focus:border-red-500/50 focus:outline-none focus:ring-1 focus:ring-red-500/30 transition-colors"
+                className="w-full px-4 py-3 rounded-xl bg-white border border-zinc-200 text-zinc-900 placeholder-zinc-500 focus:border-red-300 focus:outline-none focus:ring-1 focus:ring-red-200 transition-colors"
               />
               <div className="flex flex-wrap gap-2">
-                <button type="button" onClick={generatePhotoQr} className="flex-1 min-w-[120px] py-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-400 font-medium border border-red-500/30 hover:border-red-500/50 transition-all">
+                <button type="button" onClick={generatePhotoQr} className="flex-1 min-w-[120px] py-3 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 font-medium border border-red-200 hover:border-red-300 transition-all">
                   Update QR
                 </button>
-                <button type="button" onClick={downloadQr} className="flex-1 min-w-[120px] py-3 rounded-xl bg-white/5 hover:bg-white/10 text-zinc-200 font-medium border border-white/10 transition-all">
+                <button type="button" onClick={downloadQr} className="flex-1 min-w-[120px] py-3 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-medium border border-zinc-200 transition-all">
                   Download PNG
                 </button>
               </div>
             </div>
-            {qrError && <p className="text-red-400/90 text-sm text-center">{qrError}</p>}
-            <div className="flex justify-center p-4 rounded-xl bg-white border border-white/10 shadow-inner">
+            {qrError && <p className="text-red-600 text-sm text-center">{qrError}</p>}
+            <div className="flex justify-center p-4 rounded-xl bg-white border border-zinc-200 shadow-inner">
               <div ref={qrContainerRef} className="inline-block leading-none" />
             </div>
-            <p className="text-zinc-600 text-xs text-center">Uses high error correction so the code still scans with the center image. Photo: <code className="text-zinc-500">{PHOTO_QR_ASSET}</code></p>
+            <p className="text-zinc-400 text-xs text-center">Uses high error correction so the code still scans with the center image. Photo: <code className="text-zinc-500">{PHOTO_QR_ASSET}</code></p>
           </div>
         )}
       </div>

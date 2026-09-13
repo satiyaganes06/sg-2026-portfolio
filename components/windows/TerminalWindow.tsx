@@ -19,7 +19,7 @@ export default function TerminalWindow({ onZenModeChange, zenMode, onExit }: Ter
   // Usually terminals have the shell info inside.
   
   return (
-    <div className="w-full h-full bg-zinc-950 text-zinc-200 flex flex-col">
+    <div className="w-full h-full bg-white text-zinc-800 flex flex-col">
        <div className="flex-1 min-h-0">
           <Terminal 
             embedded={true}

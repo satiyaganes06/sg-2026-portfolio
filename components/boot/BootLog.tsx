@@ -78,7 +78,7 @@ export default function BootLog({ progress, title = "Booting Shatthiya’s Portf
     <div className="relative w-full h-full bg-black">
       {/* Scrollable terminal body with sticky top title and sticky bottom progress */}
       <div className="absolute inset-0 overflow-auto crt-flicker">
-        <div className="relative min-h-full font-mono text-green-200 text-xs md:text-sm leading-relaxed">
+        <div className="relative min-h-full font-mono text-red-200 text-xs md:text-sm leading-relaxed">
           {/* Sticky top line (title as part of the log) */}
           <div className="sticky top-0 z-10 bg-black/85 px-4 py-1.5">
             <span className="crt-glow">[ OS ] {title}</span>
@@ -93,7 +93,7 @@ export default function BootLog({ progress, title = "Booting Shatthiya’s Portf
                 </motion.div>
               ))}
             </AnimatePresence>
-            <span className="inline-block w-2 h-4 align-text-top bg-green-300 ml-1 animate-pulse" />
+            <span className="inline-block w-2 h-4 align-text-top bg-red-300 ml-1 animate-pulse" />
             <div ref={endRef} />
           </div>
         </div>
@@ -101,9 +101,9 @@ export default function BootLog({ progress, title = "Booting Shatthiya’s Portf
 
       {/* Always-on-bottom ASCII progress bar (outside scroll area) */}
       <div className="absolute bottom-0 left-0 right-0 z-20 bg-black/85 px-4 py-2">
-        <span className="text-green-400 font-mono text-xs">[
-          <span className="text-green-400">{"█".repeat(filled)}</span>
-          <span className="text-green-900">{"░".repeat(empty)}</span>
+        <span className="text-red-400 font-mono text-xs">[
+          <span className="text-red-400">{"█".repeat(filled)}</span>
+          <span className="text-red-900">{"░".repeat(empty)}</span>
         ] {pct}%</span>
       </div>
 

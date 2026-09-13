@@ -1,242 +1,439 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ExperienceCard from "./ExperienceCard";
-import { getAllExperience, getResume, getProfile, getHobbies, getAwards } from "@/lib/data";
 import { motion } from "motion/react";
+import {
+  ArrowUpRight,
+  Award as AwardIcon,
+  Download,
+  GraduationCap,
+  Languages as LanguagesIcon,
+  Mail,
+  MapPin,
+} from "lucide-react";
+import {
+  getAllExperience,
+  getAwards,
+  getEducation,
+  getFocusAreas,
+  getHobbies,
+  getProfile,
+  getResume,
+  getStats,
+  getWorkingStyle,
+} from "@/lib/data";
 
 export type OpenAppFn = (app: "about" | "projects" | "skills" | "contact") => void;
 
-type View = "about" | "experience";
+type View = "overview" | "experience" | "credentials";
+
+const TABS: { id: View; label: string }[] = [
+  { id: "overview", label: "Overview" },
+  { id: "experience", label: "Experience" },
+  { id: "credentials", label: "Credentials" },
+];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const stagger = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.06 } },
+};
+
+/** Small uppercase section heading with a hairline rule. */
+function SectionTitle({
+  children,
+  icon: Icon,
+}: {
+  children: React.ReactNode;
+  icon?: React.ComponentType<{ className?: string }>;
+}) {
+  return (
+    <div className="flex items-center gap-2.5 mb-5">
+      {Icon && <Icon className="w-4 h-4 text-red-500/80 shrink-0" />}
+      <h3 className="text-[11px] uppercase tracking-[0.18em] font-semibold text-zinc-600">
+        {children}
+      </h3>
+      <div className="flex-1 h-px bg-zinc-200" />
+    </div>
+  );
+}
+
+function Chip({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center rounded-full border border-zinc-200 bg-zinc-100 px-2.5 py-1 text-[11px] text-zinc-600">
+      {children}
+    </span>
+  );
+}
 
 export default function AboutHome({ onOpen }: { onOpen: OpenAppFn }) {
-  const [currentView, setCurrentView] = useState<View>("about");
-
+  const [view, setView] = useState<View>("overview");
   const [isMobile, setIsMobile] = useState(false);
+
+  const profile = getProfile();
+  const resume = getResume();
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  useEffect(() => {
-    // Load Google Fonts dynamically
-    const link = document.createElement('link');
-    link.href = 'https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&family=Rammetto+One&family=Roboto+Slab:wght@400..900&display=swap';
-    link.rel = 'stylesheet';
-    document.head.appendChild(link);
-  }, []);
+  const pad = isMobile ? "px-4 py-6" : "px-8 py-10";
 
-  const renderAbout = () => {
-    const resume = getResume();
-    const profile = getProfile();
-
-    const containerVariants = {
-      hidden: { opacity: 0 },
-      visible: {
-        opacity: 1,
-        transition: {
-          staggerChildren: 0.05 // Faster stagger
-        }
-      }
-    };
-
-    const itemVariants = {
-      hidden: { opacity: 0, y: 10 }, // Reduced y distance for subtler pop-in
-      visible: { opacity: 1, y: 0 }
-    };
-
-    return (
-      <div className="flex flex-col relative z-50 pb-6">
-        {/* Header with CTA buttons */}
-        <div className={`sticky top-0 z-50 flex ${isMobile ? 'flex-col gap-3 items-start' : 'flex-row items-center justify-between'} px-6 py-4 border-b border-white/10 bg-[#0d0d0d]/80 backdrop-blur-md`}>
-          <h1 className="text-2xl font-bold text-white">About</h1>
-          <div className={`flex flex-row ${isMobile ? 'overflow-x-auto w-full pb-1 scrollbar-hide' : 'gap-2'}`}>
-            <motion.button
-              onClick={() => setCurrentView("experience")}
-              className={`text-zinc-400 hover:text-white px-3 py-1.5 transition-colors font-medium text-sm whitespace-nowrap ${isMobile ? 'bg-white/5 rounded-full mr-2' : ''}`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Experience
-            </motion.button>
-
-            <motion.button
-              onClick={() => onOpen("projects")}
-              className={`text-zinc-400 hover:text-white px-3 py-1.5 transition-colors font-medium text-sm whitespace-nowrap ${isMobile ? 'bg-white/5 rounded-full mr-2' : ''}`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Projects
-            </motion.button>
-
-            <motion.button
-              onClick={() => onOpen("skills")}
-              className={`text-zinc-400 hover:text-white px-3 py-1.5 transition-colors font-medium text-sm whitespace-nowrap ${isMobile ? 'bg-white/5 rounded-full mr-2' : ''}`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Skills
-            </motion.button>
-
-            <motion.button
-              onClick={() => onOpen("contact")}
-              className={`text-zinc-400 hover:text-white px-3 py-1.5 transition-colors font-medium text-sm whitespace-nowrap ${isMobile ? 'bg-white/5 rounded-full' : ''}`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Contact
-            </motion.button>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className={isMobile ? "p-4" : "p-6"}>
-          <motion.div
-            className="max-w-4xl mx-auto space-y-12"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* Hero Welcome */}
-            <motion.div
-              variants={itemVariants}
-              className={isMobile ? "pl-0" : "pl-2"}
-            >
-                {/* <div className="flex items-center gap-6 mb-6"> */}
-                  <div className="flex items-center gap-6 mb-6">
-                    <img
-                      src={"/my_photo.jpg"}
-                      alt={profile.name}
-                      className={`${isMobile ? "w-20 h-20" : "w-50 h-50"} rounded-full object-cover border-4 border-white/10 shadow-lg`}
-                      width={isMobile ? 80 : 128}
-                      height={isMobile ? 80 : 128}
-                      loading="eager"
-                    />
-                  </div>
-                {/* </div> */}
-                <div className="mb-6">
-                  <h2 className={`${isMobile ? 'text-3xl' : 'text-5xl'} font-black text-white mb-4 tracking-tight`}>Hi, I&apos;m {profile.name}!</h2>
-                  <p className={`${isMobile ? 'text-xl' : 'text-2xl'} text-zinc-400 font-light max-w-2xl`}>{profile.tagline}</p>
-                </div>
-
-                <p className="text-zinc-400 leading-relaxed text-lg mb-8 max-w-2xl">
-                  {profile.about}
-                </p>
-
-                <div className="flex flex-col sm:flex-row gap-6 mt-8 border-t border-white/5 pt-8">
-                    <motion.a
-                        href={resume.url}
-                        download={resume.filename}
-                        className="group relative inline-flex items-center gap-3 px-8 py-3 bg-white text-black rounded-full font-bold tracking-wide overflow-hidden hover:scale-105 transition-transform duration-300 shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-r from-zinc-200 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        <span className="relative z-10 flex items-center gap-2">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Download CV
-                        </span>
-                    </motion.a>
-
-                    <a
-                      href={`mailto:${profile.contact.email_masked}`}
-                      className="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition-colors self-center font-medium"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                      {profile.contact.email_masked}
-                    </a>
-                </div>
-            </motion.div>
-
-            {/* About Me Section */}
-            <motion.div variants={itemVariants} className={isMobile ? "ml-0" : "pl-2 border-l-2 border-white/10 ml-1"}>
-              <div className={isMobile ? "pl-0 space-y-4" : "pl-6 space-y-4"}>
-                  <h2 className="text-2xl font-bold text-white mb-4">My Journey</h2>
-                  <div className="space-y-4 text-zinc-400 leading-relaxed max-w-3xl">
-                    <p>{profile.education.summary}</p>
-                  </div>
-              </div>
-            </motion.div>
-
-            {/* Hobbies & Interests */}
-            <motion.div variants={itemVariants} className={isMobile ? "pl-0" : "pl-2"}>
-              <h2 className="text-2xl font-bold text-white mb-6">What I Love To Do</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 max-w-3xl">
-                {getHobbies().map((hobby, i) => (
-                  <div key={i} className="group">
-                    <h4 className="font-medium text-zinc-200 mb-1 flex items-center gap-2 group-hover:text-red-400 transition-colors">
-                      <span>{["☕", "📖", "🎵", "🎬", "✨"][i] ?? "•"}</span> {hobby}
-                    </h4>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Awards */}
-            <motion.div variants={itemVariants} className={isMobile ? "pl-0" : "pl-2"}>
-              <h2 className="text-2xl font-bold text-white mb-6">Awards</h2>
-              <ul className="space-y-3 max-w-3xl">
-                {getAwards().map((a, i) => (
-                  <li key={i} className="text-zinc-400 text-sm pl-2 border-l-2 border-white/10">
-                    <span className="text-zinc-200 font-medium">{a.title}</span>
-                    {a.subtitle && <p className="mt-0.5 text-zinc-500">{a.subtitle}</p>}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-          </motion.div>
-        </div>
-      </div>
-    );
-  };
-
-
-  const renderExperience = () => {
-    const experience = getAllExperience();
-
-    return (
-      <div className="flex flex-col relative z-50 pb-6">
-        <div className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 border-b border-white/10 bg-[#0d0d0d]/80 backdrop-blur-md">
-          <h2 className="text-xl font-bold text-white">Experience</h2>
-          <button
-            className="text-zinc-400 hover:text-white transition-colors text-sm font-medium"
-            onClick={() => setCurrentView("about")}
-          >
-            ← Back
-          </button>
-        </div>
-
-        <div className={isMobile ? "p-4" : "p-6"}>
-          <div className="max-w-4xl mx-auto space-y-4">
-            {experience.map((exp, index) => (
-              <ExperienceCard
-                key={index}
-                title={exp.title}
-                company={exp.company}
-                duration={exp.period}
-                location={exp.location}
-                description={exp.description}
-                achievements={exp.achievements}
-                isCurrent={exp.period.includes("Present")}
-              />
+  return (
+    <div className="h-full w-full relative z-50">
+      {/* Sticky header */}
+      <div className="sticky top-0 z-50 border-b border-zinc-200 bg-white/90 backdrop-blur-md">
+        <div className={`flex items-center justify-between gap-4 ${isMobile ? "px-4" : "px-8"} py-3.5`}>
+          <h1 className="text-lg font-bold text-zinc-900 shrink-0">About</h1>
+          <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide">
+            {TABS.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => setView(t.id)}
+                className={`px-3 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap transition-colors ${
+                  view === t.id
+                    ? "bg-zinc-900 text-white"
+                    : "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100"
+                }`}
+              >
+                {t.label}
+              </button>
             ))}
           </div>
         </div>
       </div>
-    );
-  };
+
+      <div className={pad}>
+        <div className="max-w-3xl mx-auto">
+          {view === "overview" && (
+            <Overview
+              isMobile={isMobile}
+              onOpen={onOpen}
+              profile={profile}
+              resumeUrl={resume.url}
+              resumeFilename={resume.filename}
+            />
+          )}
+          {view === "experience" && <ExperienceView />}
+          {view === "credentials" && <CredentialsView />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- Overview */
+
+function Overview({
+  isMobile,
+  onOpen,
+  profile,
+  resumeUrl,
+  resumeFilename,
+}: {
+  isMobile: boolean;
+  onOpen: OpenAppFn;
+  profile: ReturnType<typeof getProfile>;
+  resumeUrl: string;
+  resumeFilename: string;
+}) {
+  const stats = getStats();
+  const focusAreas = getFocusAreas();
+  const workingStyle = getWorkingStyle();
+  const hobbies = getHobbies();
 
   return (
-    <div className="h-full w-full">
-      {currentView === "about" && renderAbout()}
-      {currentView === "experience" && renderExperience()}
-    </div>
+    <motion.div variants={stagger} initial="hidden" animate="visible" className="space-y-12">
+      {/* Identity */}
+      <motion.section variants={fadeUp}>
+        <div className={`flex ${isMobile ? "flex-col" : "flex-row items-end"} gap-6 mb-7`}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/my_photo.png"
+            alt={profile.name}
+            className={`${
+              isMobile ? "w-24 h-24" : "w-36 h-36"
+            } rounded-2xl object-cover border border-zinc-200 shadow-2xl shrink-0`}
+            loading="eager"
+          />
+          <div className="min-w-0">
+            <h2
+              className={`${
+                isMobile ? "text-3xl" : "text-[42px]"
+              } font-black text-zinc-900 tracking-tight leading-[1.05] mb-2`}
+            >
+              Hi, I&apos;m Satiya Ganes
+            </h2>
+            <p className="text-lg text-zinc-700 mb-3">
+              Full Stack Mobile Developer, Specialist in Mobile Security.
+            </p>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[13px] text-zinc-500">
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin className="w-3.5 h-3.5" />
+                {profile.location}
+              </span>
+              <span className="text-zinc-300">·</span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                {profile.contact.open_to}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <p className="text-zinc-600 leading-relaxed text-[15px] max-w-2xl">{profile.about}</p>
+      </motion.section>
+
+      {/* Stats */}
+      <motion.section variants={fadeUp}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-200 border border-zinc-200 rounded-2xl overflow-hidden">
+          {stats.map((s) => (
+            <div key={s.label} className="bg-white p-4 md:p-5">
+              <div className="text-2xl md:text-3xl font-black text-zinc-900 mb-1">{s.value}</div>
+              <div className="text-[11px] text-zinc-500 leading-snug">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* What I do */}
+      <motion.section variants={fadeUp}>
+        <SectionTitle>What I do</SectionTitle>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {focusAreas.map((f) => (
+            <div
+              key={f.title}
+              className="group rounded-2xl border border-zinc-200 bg-zinc-50 p-5 hover:border-red-200 hover:bg-zinc-100 transition-colors"
+            >
+              <h4 className="text-zinc-900 font-bold mb-2 group-hover:text-red-600 transition-colors">
+                {f.title}
+              </h4>
+              <p className="text-[13px] text-zinc-600 leading-relaxed mb-4">{f.summary}</p>
+              <div className="flex flex-wrap gap-1.5">
+                {f.tools.map((t) => (
+                  <Chip key={t}>{t}</Chip>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* How I work */}
+      <motion.section variants={fadeUp}>
+        <SectionTitle>How I work</SectionTitle>
+        <ul className="space-y-3.5">
+          {workingStyle.map((w, i) => (
+            <li key={i} className="flex gap-3.5">
+              <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-red-500 shrink-0" />
+              <span className="text-[14px] text-zinc-600 leading-relaxed">{w}</span>
+            </li>
+          ))}
+        </ul>
+      </motion.section>
+
+      {/* Languages */}
+      {profile.languages && (
+        <motion.section variants={fadeUp}>
+          <SectionTitle icon={LanguagesIcon}>Languages</SectionTitle>
+          <div className="flex flex-wrap gap-2.5">
+            {profile.languages.map((l) => (
+              <div
+                key={l.name}
+                className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-2.5"
+              >
+                <div className="text-[14px] text-zinc-900 font-medium">{l.name}</div>
+                <div className="text-[11px] text-zinc-500">{l.level}</div>
+              </div>
+            ))}
+          </div>
+        </motion.section>
+      )}
+
+      {/* Away from the keyboard */}
+      <motion.section variants={fadeUp}>
+        <SectionTitle>Away from the keyboard</SectionTitle>
+        <div className="flex flex-wrap gap-2">
+          {hobbies.map((h, i) => (
+            <span
+              key={i}
+              className="rounded-full border border-zinc-200 bg-zinc-50 px-3.5 py-1.5 text-[13px] text-zinc-600"
+            >
+              {["🧱", "🧩", "🪵", "⚽", "🏸"][i] ?? "•"} {h}
+            </span>
+          ))}
+        </div>
+      </motion.section>
+
+      {/* CTA */}
+      <motion.section variants={fadeUp} className="border-t border-zinc-200 pt-8">
+        <div className="flex flex-wrap gap-3 mb-6">
+          <a
+            href={resumeUrl}
+            download={resumeFilename}
+            className="inline-flex items-center gap-2 rounded-full bg-zinc-900 text-white px-5 py-2.5 text-[14px] font-bold hover:bg-zinc-800 transition-colors no-underline"
+          >
+            <Download className="w-4 h-4" />
+            Download CV
+          </a>
+          <a
+            href={`mailto:${profile.contact.email_masked}`}
+            className="inline-flex items-center gap-2 rounded-full border border-zinc-300 text-zinc-700 px-5 py-2.5 text-[14px] font-medium hover:bg-zinc-100 hover:text-zinc-900 transition-colors no-underline"
+          >
+            <Mail className="w-4 h-4" />
+            {profile.contact.email_masked}
+          </a>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {(["projects", "skills", "contact"] as const).map((app) => (
+            <button
+              key={app}
+              onClick={() => onOpen(app)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 px-4 py-2 text-[13px] text-zinc-600 hover:text-zinc-900 hover:border-zinc-300 transition-colors capitalize"
+            >
+              Open {app}
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </button>
+          ))}
+        </div>
+      </motion.section>
+    </motion.div>
+  );
+}
+
+/* -------------------------------------------------------------- Experience */
+
+function ExperienceView() {
+  const experience = getAllExperience();
+
+  return (
+    <motion.div variants={stagger} initial="hidden" animate="visible" className="relative">
+      {/* Timeline rail */}
+      <div className="absolute left-[5px] top-2 bottom-2 w-px bg-zinc-200 hidden sm:block" />
+
+      <div className="space-y-10">
+        {experience.map((exp, i) => (
+          <motion.article key={i} variants={fadeUp} className="relative sm:pl-8 group">
+            {/* Node */}
+            <span
+              className={`absolute left-0 top-[7px] h-[11px] w-[11px] rounded-full border-2 hidden sm:block ${
+                exp.current
+                  ? "bg-red-500 border-red-500 shadow-[0_0_0_4px_rgba(239,68,68,0.15)]"
+                  : "bg-white border-zinc-300 group-hover:border-red-400 transition-colors"
+              }`}
+            />
+
+            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1.5">
+              <h3 className="text-[17px] font-bold text-zinc-900 group-hover:text-red-600 transition-colors">
+                {exp.title}
+              </h3>
+              <span className="text-[12px] text-zinc-500 font-mono shrink-0">{exp.period}</span>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] text-zinc-600 mb-3">
+              <span className="font-medium text-zinc-700">{exp.company}</span>
+              {exp.location && (
+                <>
+                  <span className="text-zinc-300">·</span>
+                  <span className="text-zinc-500">{exp.location}</span>
+                </>
+              )}
+              {exp.current && (
+                <span className="rounded-full bg-red-50 text-red-600 px-2 py-0.5 text-[10px] uppercase tracking-wider font-bold">
+                  Current
+                </span>
+              )}
+            </div>
+
+            <p className="text-[14px] text-zinc-600 leading-relaxed mb-4">{exp.description}</p>
+
+            {exp.achievements && (
+              <ul className="space-y-2 mb-4">
+                {exp.achievements.map((a, j) => (
+                  <li key={j} className="flex gap-3">
+                    <span className="mt-[7px] h-1 w-1 rounded-full bg-zinc-300 shrink-0" />
+                    <span className="text-[13.5px] text-zinc-600 leading-relaxed">{a}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {exp.tech && (
+              <div className="flex flex-wrap gap-1.5">
+                {exp.tech.map((t) => (
+                  <Chip key={t}>{t}</Chip>
+                ))}
+              </div>
+            )}
+          </motion.article>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+/* ------------------------------------------------------------- Credentials */
+
+function CredentialsView() {
+  const education = getEducation();
+  const awards = getAwards();
+
+  return (
+    <motion.div variants={stagger} initial="hidden" animate="visible" className="space-y-12">
+      <motion.section variants={fadeUp}>
+        <SectionTitle icon={GraduationCap}>Education</SectionTitle>
+        <div className="space-y-4">
+          {education.map((e) => (
+            <div
+              key={e.degree}
+              className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5 hover:border-zinc-300 transition-colors"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1.5">
+                <h4 className="text-zinc-900 font-bold text-[15px]">{e.degree}</h4>
+                <span className="text-[12px] text-zinc-500 font-mono shrink-0">{e.period}</span>
+              </div>
+              <p className="text-[13px] text-zinc-600">{e.institution}</p>
+              {e.note && <p className="text-[12px] text-zinc-400 mt-1">{e.note}</p>}
+              {e.thesis && (
+                <p className="text-[13px] text-zinc-500 mt-3 pl-3 border-l border-zinc-200 leading-relaxed">
+                  <span className="text-zinc-400">Thesis — </span>
+                  {e.thesis}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </motion.section>
+
+      <motion.section variants={fadeUp}>
+        <SectionTitle icon={AwardIcon}>Honours &amp; Awards</SectionTitle>
+        <div className="space-y-3">
+          {awards.map((a, i) => (
+            <div
+              key={i}
+              className="group flex gap-4 rounded-2xl border border-zinc-200 bg-zinc-50 p-5 hover:border-red-200 transition-colors"
+            >
+              <div className="text-[11px] font-mono text-zinc-400 pt-1 shrink-0 w-9">{a.year}</div>
+              <div className="min-w-0">
+                <h4 className="text-zinc-900 font-bold text-[14.5px] group-hover:text-red-600 transition-colors">
+                  {a.title}
+                </h4>
+                {a.subtitle && (
+                  <p className="text-[13px] text-zinc-500 mt-1 leading-relaxed">{a.subtitle}</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </motion.section>
+    </motion.div>
   );
 }
