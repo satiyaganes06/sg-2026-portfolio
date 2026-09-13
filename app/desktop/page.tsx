@@ -5,13 +5,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { ArrowUpRight, Clipboard, Globe, Github, Linkedin, MapPin, Twitter } from "lucide-react";
 import MenuBar from "@/components/desktop/MenuBar";
 import DesktopBackground from "@/components/desktop/DesktopBackground";
-import AppWindow from "@/components/windows/AppWindow";
-import SkillsWindow from "@/components/windows/SkillsWindow";
-import ContactWindow from "@/components/windows/ContactWindow";
-import ProjectsWindow from "@/components/windows/ProjectsWindow";
-import AboutHome from "@/components/windows/AboutHome";
-import ShortenLinkWindow from "@/components/windows/ShortenLinkWindow";
-import TerminalWindow from "@/components/windows/TerminalWindow";
+import DesktopWindows, { WINDOW_TITLES } from "@/components/desktop/DesktopWindows";
+import { useWindowManager } from "@/components/desktop/useWindowManager";
+import { useViewportSize } from "@/components/desktop/useViewportSize";
 import TodoWidget from "@/components/widgets/TodoWidget";
 import NowListeningWidget from "@/components/widgets/NowListeningWidget";
 import DateNowWidget from "@/components/widgets/DateNowWidget";
@@ -19,128 +15,19 @@ import TechStackStrip from "@/components/tech-marquee";
 import { getResponsiveConfig } from "@/lib/responsive";
 import { getProfile } from "@/lib/data";
 import DesktopDock, { dockApps } from "@/components/desktop/DesktopDock";
-import { WindowAppType, WidgetType, DesktopItem, DockApp } from "@/components/desktop/types";
+import { WidgetType, DesktopItem } from "@/components/desktop/types";
 
 export default function DesktopOSPage() {
 
-  // track which windows are open and a z-order stack for layering
-  const [openWindows, setOpenWindows] = useState<Record<WindowAppType, boolean>>({
-    about: false,
-    projects: false,
-    skills: false,
-    contact: false,
-    shorten: false,
-    terminal: false,
-  });
+  const manager = useWindowManager();
+  const { openWindows, focusedWindow, zenMode, openWindow, handleDockAppClick, setFocusedWindow } = manager;
 
-  // Window dimensions - use consistent initial values to prevent hydration mismatch
-  const [width, setWidth] = useState(1440);
-  const [height, setHeight] = useState(900);
-  const [windowStack, setWindowStack] = useState<WindowAppType[]>([]);
-  const [focusedWindow, setFocusedWindow] = useState<WindowAppType | null>(null);
+  const { width, height } = useViewportSize();
 
   // Responsive configuration
   const responsiveConfig = useMemo(() => getResponsiveConfig(width, height), [width, height]);
 
-  // Track fullscreen state per window
-  const [fullscreenWindows, setFullscreenWindows] = useState<Record<WindowAppType, boolean>>({
-    about: false,
-    projects: false,
-    skills: false,
-    contact: false,
-    shorten: false,
-    terminal: false,
-  });
-
-  // Track minimized state per window
-  const [minimizedWindows, setMinimizedWindows] = useState<Record<WindowAppType, boolean>>({
-    about: false,
-    projects: false,
-    skills: false,
-    contact: false,
-    shorten: false,
-    terminal: false,
-  });
-
-  // Update window dimensions after hydration to prevent hydration mismatch
-  useEffect(() => {
-    const updateDimensions = () => {
-      setWidth(window.innerWidth);
-      setHeight(window.innerHeight);
-    };
-
-    updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
-  }, []);
-
-
-
-
-
-  // Window helpers
-  const bringToFront = useCallback((appType: WindowAppType) => {
-    setWindowStack(prev => [...prev.filter(w => w !== appType), appType]);
-    setFocusedWindow(appType);
-  }, []);
-
-  const openWindow = useCallback((appType: WindowAppType) => {
-    setOpenWindows(prev => ({ ...prev, [appType]: true }));
-    setWindowStack(prev => [...prev.filter(w => w !== appType), appType]);
-    setFocusedWindow(appType);
-  }, []);
-
-  const closeWindow = useCallback((appType: WindowAppType) => {
-    setOpenWindows(prev => ({ ...prev, [appType]: false }));
-    setMinimizedWindows(prev => ({ ...prev, [appType]: false }));
-    setWindowStack(prev => prev.filter(w => w !== appType));
-    setFocusedWindow(prev => (prev === appType ? null : prev));
-  }, []);
-
-  const minimizeWindow = useCallback((appType: WindowAppType) => {
-    setMinimizedWindows(prev => ({ ...prev, [appType]: true }));
-    setFocusedWindow(prev => (prev === appType ? null : prev));
-  }, []);
-
-  const toggleFullscreen = useCallback((appType: WindowAppType) => {
-    if (appType === 'shorten') return;
-    setFullscreenWindows(prev => ({ ...prev, [appType]: !prev[appType] }));
-    bringToFront(appType);
-  }, [bringToFront]);
-
-  // Track window origins for dock animations
-  const [dockOrigins, setDockOrigins] = useState<Record<WindowAppType, DOMRect | null>>({
-    about: null,
-    projects: null,
-    skills: null,
-    contact: null,
-    shorten: null,
-    terminal: null,
-  });
-
-  // Dock app click
-  const handleDockAppClick = useCallback((app: DockApp, rect: DOMRect) => {
-    const appType = app.appType as WindowAppType;
-
-    // Update origin
-    setDockOrigins(prev => ({ ...prev, [appType]: rect }));
-
-    if (app.appType in openWindows) {
-      if (minimizedWindows[appType]) {
-        // Restore minimized window
-        setMinimizedWindows(prev => ({ ...prev, [appType]: false }));
-        bringToFront(appType);
-      } else {
-        // Open or focus window
-        openWindow(appType);
-      }
-    }
-  }, [openWindow, openWindows, minimizedWindows, bringToFront]);
-
   const clearSelection = useCallback(() => { }, []);
-
-  // Zen mode for terminal
-  const [zenMode, setZenMode] = useState(false);
 
   // Role rotator for hero
   const [roleIndex, setRoleIndex] = useState(0);
@@ -232,36 +119,6 @@ export default function DesktopOSPage() {
   };
 
 
-  // Window descriptors to remove JSX duplication
-  const WINDOW_CONFIG: Record<WindowAppType, { title: string; render: () => React.JSX.Element }> = {
-    about: { title: "About", render: () => <AboutHome onOpen={(app) => openWindow(app as WindowAppType)} /> },
-    projects: { title: "Projects", render: () => <ProjectsWindow /> },
-    skills: { title: "Skills", render: () => <SkillsWindow /> },
-    contact: { title: "Contact / Socials", render: () => <ContactWindow /> },
-    shorten: { title: "Shorten & Photo QR", render: () => <ShortenLinkWindow /> },
-    terminal: { 
-      title: "Terminal", 
-      render: () => (
-        <TerminalWindow 
-          zenMode={zenMode}
-          onZenModeChange={(enabled) => {
-            setZenMode(enabled);
-            // If zen mode is enabled, we need to ensure this window is active and probably maximized if not already
-            if (enabled) {
-              setFullscreenWindows(prev => ({ ...prev, terminal: true }));
-              bringToFront('terminal');
-            } else {
-              setFullscreenWindows(prev => ({ ...prev, terminal: false }));
-            }
-          }}
-          onExit={() => closeWindow('terminal')}
-        />
-      ) 
-    },
-  } as const;
-
-  const zBase = 100; // base z-index for windows
-
   return (
     <div>
       {/* Actual desktop UI - Visible on all screens now */}
@@ -279,9 +136,9 @@ export default function DesktopOSPage() {
         {/* Desktop Background */}
         {/* <DesktopBackground backgroundImage="/Julius-Caesar.webp" overlay={false} /> */}
 
-        Menu Bar - Hidden in Zen Mode
+        {/* Menu Bar - Hidden in Zen Mode */}
         {!zenMode && (
-          <MenuBar title={focusedWindow ? WINDOW_CONFIG[focusedWindow]?.title : "Desktop"} showSystemMenu={true} terminalHref="/terminal" shutdownHref="/" />
+          <MenuBar title={focusedWindow ? WINDOW_TITLES[focusedWindow] : "Desktop"} showSystemMenu={true} terminalHref="/terminal" shutdownHref="/" />
         )}
 
         {/* Hero + Info Cards - Hidden in Zen Mode */}
@@ -408,52 +265,7 @@ export default function DesktopOSPage() {
         )}
 
         {/* Windows */}
-        <AnimatePresence>
-          {(Object.keys(WINDOW_CONFIG) as WindowAppType[]).map((appType) => {
-            if (!openWindows[appType]) return null;
-            // In Zen Mode, only show the terminal, and hide others
-            if (zenMode && appType !== 'terminal') return null;
-
-            const orderIndex = Math.max(0, windowStack.indexOf(appType));
-            const { title, render } = WINDOW_CONFIG[appType];
-            const isMinimized = minimizedWindows[appType];
-            
-            // If Zen Mode is active, force fullscreen for terminal, and ensure it's not minimized
-            const isFullscreen = (zenMode && appType === 'terminal') ? true : fullscreenWindows[appType];
-            
-            return (
-              <AppWindow
-                key={appType}
-                title={title}
-                onClose={() => {
-                   if (zenMode && appType === 'terminal') {
-                     setZenMode(false);
-                   }
-                   closeWindow(appType);
-                }}
-                onMinimize={() => minimizeWindow(appType)}
-                onToggleFullscreen={(appType === 'contact' || appType === 'shorten') ? undefined : () => toggleFullscreen(appType)}
-                fullscreen={isFullscreen}
-                minimized={isMinimized}
-                origin={dockOrigins[appType] || undefined}
-                zIndex={zBase + orderIndex}
-                // Hide window controls if in Zen Mode and pass explicit style overrides for terminal
-                hideTitleBar={zenMode && appType === 'terminal'}
-                borderColor={appType === 'terminal' ? "#3f3f46" : undefined} // zinc-700 for distinct border, or match standard
-                backgroundColor={appType === 'terminal' ? "#09090b" : undefined} // zinc-950 for terminal background
-                
-                initialSize={
-                  appType === 'shorten' ? { width: Math.min(440, width * 0.9), height: Math.min(640, height * 0.78) } : 
-                  undefined
-                }
-                hidePadding={appType === 'shorten' || (appType === 'terminal')} // Terminal handles its own padding
-                disableMinimize={zenMode} // Cannot minimize in Zen Mode
-              >
-                {render()}
-              </AppWindow>
-            );
-          })}
-        </AnimatePresence>
+        <DesktopWindows manager={manager} width={width} height={height} />
       </div>
 
       

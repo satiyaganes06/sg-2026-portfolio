@@ -14,7 +14,9 @@
 
 /* Design tokens */
 :root {
-  --primary: oklch(0.898 0.249 26.275); 
+  --font-heading: 'HelveticaNowDisplay-Medium', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'HelveticaNowDisplayW01-Rg', 'Helvetica Neue', Arial, sans-serif;
+  --primary: oklch(0.898 0.249 26.275);
   /* solid window surface */
   --accent: oklch(0.97 0 0);
   /* off-white accent */
@@ -172,6 +174,22 @@ html,
 body {
   margin: 0;
   padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+/* Typewriter caret */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 html.light body {

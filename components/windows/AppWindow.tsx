@@ -211,8 +211,8 @@ export default function AppWindow({
           (customSize || hidePadding ? " p-0" : " p-3")
         }
         style={{
-          borderColor: borderColor || (DEBUG_UI ? "#89b4fa" : "#27272a"), // zinc-800
-          backgroundColor: backgroundColor || "#0d0d0d", // solid hex
+          borderColor: borderColor || (DEBUG_UI ? "#89b4fa" : "#e4e4e7"), // zinc-200
+          backgroundColor: backgroundColor || "#ffffff", // solid hex
           // On mobile, use margin to constrain it slightly if not fullscreen, or just fill
           // But "inset-0" class handles position, so we just need size adjustments
           width: (fullscreen || isMobile) ? "auto" : size.w,
@@ -223,7 +223,7 @@ export default function AppWindow({
           marginTop: isMobile ? "4rem" : undefined, // Space from top
           marginBottom: isMobile ? "5rem" : undefined, // Space from bottom/dock
           outline: DEBUG_UI ? "1px dashed #89b4fa" : undefined,
-          boxShadow: "0 0 0 1px rgba(255,255,255,0.1), 0 20px 50px -12px rgba(0,0,0,0.7)",
+          boxShadow: "0 0 0 1px rgba(0,0,0,0.06), 0 20px 50px -12px rgba(0,0,0,0.28)",
         }}
         {...dragProps}
       >
@@ -263,7 +263,7 @@ export default function AppWindow({
               className={`w-4 h-4 rounded-full flex items-center justify-center text-black/50 opacity-100 hover:text-black/80 transition-all font-bold p-0 leading-none group-hover/window-controls:opacity-100 ${
                 onToggleFullscreen 
                   ? 'bg-[#27c93f] hover:bg-[#27c93f]/90 border border-[#1aab29] cursor-pointer' 
-                  : 'bg-zinc-600 border border-zinc-500 cursor-not-allowed opacity-40 hover:bg-zinc-600'
+                  : 'bg-zinc-300 border border-zinc-400 cursor-not-allowed opacity-40 hover:bg-zinc-300'
               }`}
             >
                <span className="opacity-0 group-hover/window-controls:opacity-100 transition-opacity rotate-45 transform origin-center flex items-center justify-center h-full w-full relative left-[0.5px] top-[0.5px]">
@@ -274,12 +274,12 @@ export default function AppWindow({
                </span>
             </button>
           </div>
-          <span className="ml-4 text-[15px] font-medium text-zinc-300">
+          <span className="ml-4 text-[15px] font-medium text-zinc-700">
             {title}
           </span>
         </div>
         )}
-        <div className={`flex-1 min-h-0 overflow-y-auto overscroll-contain scrollbar-hide ${customSize || hidePadding ? "" : "pr-2"}`} style={{ color: "#cdd6f4" }}>
+        <div className={`flex-1 min-h-0 overflow-y-auto overscroll-contain scrollbar-hide ${customSize || hidePadding ? "" : "pr-2"}`} style={{ color: "#27272a" }}>
           {children}
         </div>
 
@@ -287,7 +287,7 @@ export default function AppWindow({
         {!fullscreen && !customSize && (
           <div
             onPointerDown={startResize}
-            className="absolute bottom-2 right-2 h-3 w-3 rounded-sm border border-zinc-600 bg-zinc-500 cursor-se-resize"
+            className="absolute bottom-2 right-2 h-3 w-3 rounded-sm border border-zinc-300 bg-zinc-200 cursor-se-resize"
           />
         )}
       </motion.div>

@@ -51,11 +51,11 @@ const Skills = () => {
 
   return (
     <div className="space-y-1">
-      <div className="text-zinc-100">Skills</div>
-      <ul className="list-disc pl-6 text-zinc-300">
+      <div className="text-zinc-900">Skills</div>
+      <ul className="list-disc pl-6 text-zinc-700">
         {skills.map((category) => (
           <li key={category.title}>
-            <span className="text-zinc-200">{category.title}:</span> {category.skills.join(", ")}
+            <span className="text-zinc-800">{category.title}:</span> {category.skills.join(", ")}
           </li>
         ))}
       </ul>
@@ -65,7 +65,7 @@ const Skills = () => {
 
 function link(href: string, text?: string) {
   return (
-    <a className="text-green-400 underline" href={href} target="_blank" rel="noreferrer">
+    <a className="text-green-700 underline" href={href} target="_blank" rel="noreferrer">
       {text ?? href}
     </a>
   );
@@ -81,29 +81,29 @@ export const commands: Record<string, CommandHandler> = {
   help: () => (
     <div className="space-y-2">
       <div className="grid grid-cols-[140px_1fr] gap-x-4 gap-y-1 font-mono text-sm">
-        <div className="text-green-400">help</div>
+        <div className="text-green-700">help</div>
         <div>List all commands</div>
-        <div className="text-green-400">about</div>
+        <div className="text-green-700">about</div>
         <div>Who Am I? (use -f for full)</div>
-        <div className="text-green-400">exp</div>
+        <div className="text-green-700">exp</div>
         <div>Places I have worked</div>
-        <div className="text-green-400">skills</div>
+        <div className="text-green-700">skills</div>
         <div>My Tech Stack</div>
-        <div className="text-green-400">projects</div>
+        <div className="text-green-700">projects</div>
         <div>View my projects (use -f for details)</div>
-        <div className="text-green-400">contact</div>
+        <div className="text-green-700">contact</div>
         <div>Get in touch with me</div>
-        <div className="text-green-400">resume</div>
+        <div className="text-green-700">resume</div>
         <div>View my resume</div>
-        {/* <div className="text-green-400">starblade</div>
+        {/* <div className="text-green-700">starblade</div>
         <div>Play StarBlade - Space Shooter</div> */}
-        {/* <div className="text-green-400">spawn</div>
+        {/* <div className="text-green-700">spawn</div>
         <div>It&#39;s a secret</div> */}
-        <div className="text-green-400">clear</div>
+        <div className="text-green-700">clear</div>
         <div>Clear terminal (Ctrl/Cmd+L)</div>
-        <div className="text-green-400">zen</div>
+        <div className="text-green-700">zen</div>
         <div>Toggle Zen Mode</div>
-        <div className="text-green-400">exit</div>
+        <div className="text-green-700">exit</div>
         <div>Close terminal window</div>
       </div>
     </div>
@@ -113,9 +113,9 @@ export const commands: Record<string, CommandHandler> = {
     if (env.setZenMode) {
         const newState = !env.zenMode;
         env.setZenMode(newState);
-        return <div className="text-zinc-400">{newState ? "Entering Zen Mode... (Type 'zen' to exit)" : "Exiting Zen Mode..."}</div>;
+        return <div className="text-zinc-600">{newState ? "Entering Zen Mode... (Type 'zen' to exit)" : "Exiting Zen Mode..."}</div>;
     }
-    return <div className="text-red-400">Zen Mode not available in this environment.</div>;
+    return <div className="text-red-600">Zen Mode not available in this environment.</div>;
   },
 
   // about with optional -f flag for full details
@@ -126,16 +126,16 @@ export const commands: Record<string, CommandHandler> = {
     if (fullMode) {
       return (
         <div className="space-y-2">
-          <div className="text-zinc-100 font-semibold">{profile.name}</div>
-          <div className="text-zinc-300">{profile.tagline}</div>
-          <div className="text-zinc-400 whitespace-pre-wrap">{profile.about}</div>
+          <div className="text-zinc-900 font-semibold">{profile.name}</div>
+          <div className="text-zinc-700">{profile.tagline}</div>
+          <div className="text-zinc-600 whitespace-pre-wrap">{profile.about}</div>
           <div className="mt-3 space-y-1">
-            <div className="text-zinc-100">Education</div>
-            <div className="text-zinc-300">{profile.education.summary}</div>
+            <div className="text-zinc-900">Education</div>
+            <div className="text-zinc-700">{profile.education.summary}</div>
           </div>
           <div className="mt-2 space-y-1">
-            <div className="text-zinc-100">Status</div>
-            <div className="text-zinc-300">{profile.contact.open_to}</div>
+            <div className="text-zinc-900">Status</div>
+            <div className="text-zinc-700">{profile.contact.open_to}</div>
           </div>
         </div>
       );
@@ -143,9 +143,9 @@ export const commands: Record<string, CommandHandler> = {
     
     return (
       <div className="space-y-1">
-        <div className="text-zinc-100 font-semibold">{profile.name}</div>
-        <div className="text-zinc-300">{profile.tagline}</div>
-        <div className="text-zinc-400">Use <span className="text-green-400">about -f</span> for full details</div>
+        <div className="text-zinc-900 font-semibold">{profile.name}</div>
+        <div className="text-zinc-700">{profile.tagline}</div>
+        <div className="text-zinc-600">Use <span className="text-green-700">about -f</span> for full details</div>
       </div>
     );
   },
@@ -153,11 +153,11 @@ export const commands: Record<string, CommandHandler> = {
   // exp (experience) - alias: work
   exp: () => (
     <div className="space-y-1">
-      <div className="text-zinc-100">Experience</div>
-      <ul className="list-disc pl-6 text-zinc-300 space-y-1">
+      <div className="text-zinc-900">Experience</div>
+      <ul className="list-disc pl-6 text-zinc-700 space-y-1">
         {getAllExperience().map((exp, index) => (
           <li key={index}>
-            <span className="text-zinc-200">{exp.company}</span> — {exp.title} ({exp.period})
+            <span className="text-zinc-800">{exp.company}</span> — {exp.title} ({exp.period})
           </li>
         ))}
         <li>Open-source / Personal projects — {getProjectsCount()}+ projects, focusing on web apps and tooling</li>
@@ -177,12 +177,12 @@ export const commands: Record<string, CommandHandler> = {
     if (sub === "view") {
       const key = (args[1] || "").toLowerCase();
       const p = getProject(key);
-      if (!p) return <div className="text-red-300">Usage: projects view &lt;slug|#&gt;</div>;
+      if (!p) return <div className="text-red-600">Usage: projects view &lt;slug|#&gt;</div>;
       return (
         <div className="space-y-1">
-          <div className="text-zinc-100 font-semibold">{p.name}</div>
-          <div className="text-zinc-300">{p.desc}</div>
-          <div className="text-zinc-400">Tech: {p.tech.join(", ")}</div>
+          <div className="text-zinc-900 font-semibold">{p.name}</div>
+          <div className="text-zinc-700">{p.desc}</div>
+          <div className="text-zinc-600">Tech: {p.tech.join(", ")}</div>
           <div className="space-x-3">
             {p.demo && link(p.demo, "demo")}
             {p.repo && link(p.repo, "repo")}
@@ -195,12 +195,12 @@ export const commands: Record<string, CommandHandler> = {
     if (hasFullFlag) {
       return (
         <div className="space-y-1">
-          <div className="text-zinc-100">Projects ({getProjectsCount()})</div>
+          <div className="text-zinc-900">Projects ({getProjectsCount()})</div>
           <ul className="list-disc pl-6 space-y-2">
             {getAllProjects().map((p, i) => (
               <li key={p.slug}>
-                <div className="text-zinc-200 font-semibold">[{i + 1}] {p.name}</div>
-                <div className="text-zinc-400">{p.desc}</div>
+                <div className="text-zinc-800 font-semibold">[{i + 1}] {p.name}</div>
+                <div className="text-zinc-600">{p.desc}</div>
                 <div className="text-zinc-500 text-sm">Tech: {p.tech.join(", ")}</div>
                 <div className="space-x-3 mt-1">
                   {p.demo && link(p.demo, "demo")}
@@ -216,17 +216,17 @@ export const commands: Record<string, CommandHandler> = {
     // Default: simple list
     return (
       <div className="space-y-1">
-        <div className="text-zinc-100">Projects ({getProjectsCount()})</div>
+        <div className="text-zinc-900">Projects ({getProjectsCount()})</div>
         <ul className="list-disc pl-6 space-y-1">
           {getAllProjects().map((p, i) => (
             <li key={p.slug}>
-              <span className="text-zinc-200">[{i + 1}] {p.name}</span>{" "}
+              <span className="text-zinc-800">[{i + 1}] {p.name}</span>{" "}
               {p.demo && link(p.demo, "demo")}
               {p.repo && <span className="ml-2">{link(p.repo, "repo")}</span>}
             </li>
           ))}
         </ul>
-        <div className="text-zinc-500 text-sm mt-1">Use <span className="text-green-400">projects -f</span> for details or <span className="text-green-400">projects view &lt;slug&gt;</span></div>
+        <div className="text-zinc-500 text-sm mt-1">Use <span className="text-green-700">projects -f</span> for details or <span className="text-green-700">projects view &lt;slug&gt;</span></div>
       </div>
     );
   },
@@ -250,7 +250,7 @@ export const commands: Record<string, CommandHandler> = {
     return (
       <div className="space-y-1">
         <div className="mt-2">
-          <div className="text-zinc-100 text-sm">Socials & Contact</div>
+          <div className="text-zinc-900 text-sm">Socials & Contact</div>
           {lines}
         </div>
       </div>
@@ -266,7 +266,7 @@ export const commands: Record<string, CommandHandler> = {
     } catch { }
     return (
       <div className="space-y-1">
-        <div className="text-zinc-100">Resume</div>
+        <div className="text-zinc-900">Resume</div>
         <div>Opening resume in new tab...</div>
         <div className="text-zinc-500 text-sm">Last updated: {resume.lastUpdated}</div>
         <div className="mt-1">{link(url, "Click here if it didn't open")}</div>
@@ -296,8 +296,8 @@ export const commands: Record<string, CommandHandler> = {
       }
       // Small delay to show the message and allow zen mode to exit before closing
       setTimeout(() => env.onExit?.(), 300);
-      return <div className="text-zinc-400">Closing terminal...</div>;
+      return <div className="text-zinc-600">Closing terminal...</div>;
     }
-    return <div className="text-red-400">Exit not available in this environment.</div>;
+    return <div className="text-red-600">Exit not available in this environment.</div>;
   },
 };
