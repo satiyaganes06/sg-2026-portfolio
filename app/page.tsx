@@ -11,6 +11,7 @@ import { useWindowManager } from "@/components/desktop/useWindowManager";
 import { useViewportSize } from "@/components/desktop/useViewportSize";
 import { getResponsiveConfig } from "@/lib/responsive";
 import { getProfile, getResume } from "@/lib/data";
+import BootLog from "@/components/boot/BootLog";
 
 const TYPED_TEXT = "Full Stack Mobile Developer, Specialist in Mobile Security.";
 
@@ -40,6 +41,35 @@ export default function Home() {
 
   const { displayed, done } = useTypewriter(TYPED_TEXT);
 
+  // Boot sequence state
+  const [bootComplete, setBootComplete] = useState(false);
+  const [bootProgress, setBootProgress] = useState(0);
+
+  useEffect(() => {
+    // Check if user has already booted
+    if (typeof window !== "undefined") {
+      const hasBooted = localStorage.getItem("portfolio-booted");
+      if (hasBooted) {
+        setBootComplete(true);
+      }
+    }
+  }, []);
+
+  const handleBootComplete = () => {
+    setBootComplete(true);
+    localStorage.setItem("portfolio-booted", "true");
+  };
+
+  // Simulate boot progress
+  useEffect(() => {
+    if (!bootComplete && bootProgress < 100) {
+      const timer = setTimeout(() => {
+        setBootProgress((p) => Math.min(100, p + Math.random() * 40));
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [bootProgress, bootComplete]);
+
   // Content reveals on its own timer, independent of the typing animation.
   const [revealed, setRevealed] = useState(false);
   useEffect(() => {
@@ -66,6 +96,19 @@ export default function Home() {
     ...(profile.socials.medium ? [{ label: "Medium", href: profile.socials.medium }] : []),
     { label: "Résumé", href: resume.url },
   ];
+
+  // Show boot sequence first
+  if (!bootComplete) {
+    return (
+      <div className="w-full h-screen">
+        <BootLog
+          progress={bootProgress}
+          title="Booting Shatthiya's Portfolio…"
+          onComplete={handleBootComplete}
+        />
+      </div>
+    );
+  }
 
   return (
     <main className="relative min-h-screen" style={{ fontFamily: "var(--font-body)" }}>
