@@ -2,7 +2,6 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
-import { MINECRAFT_MODELS, type MinecraftKind } from "@/components/three/constants";
 import {
   getProject,
   getAllProjects,
@@ -13,12 +12,6 @@ import {
   getAllSkills,
   getHobbies
 } from "@/lib/data";
-
-// Lazy load the 3D component with no SSR to avoid blocking hydration/initial render
-const DynamicMinecraftSpawn = dynamic(() => import("./MinecraftSpawn"), {
-  ssr: false,
-  loading: () => <div className="text-zinc-500 text-sm">Loading 3D Module...</div>
-});
 
 // Lazy load the StarBlade game
 const DynamicStarBladeGame = dynamic(() => import("./StarBladeGame"), {
@@ -272,14 +265,6 @@ export const commands: Record<string, CommandHandler> = {
         <div className="mt-1">{link(url, "Click here if it didn't open")}</div>
       </div>
     );
-  },
-
-  // spawn: random or specific minecraft character
-  spawn: (args) => {
-    const arg = (args[0] || "").toLowerCase();
-    const asKind = (MINECRAFT_MODELS as readonly string[]).includes(arg) ? (arg as MinecraftKind) : null;
-    // Use dynamic component here
-    return <DynamicMinecraftSpawn forcedKind={asKind} />;
   },
 
   // starblade: interactive space shooter game

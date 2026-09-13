@@ -193,7 +193,7 @@ export default function Home() {
           items={
             width < 768
               ? dockApps.filter((app) =>
-                  ["about", "projects", "skills", "contact"].includes(app.appType)
+                  ["about", "projects", "skills", "contact", "terminal", "shorten"].includes(app.appType)
                 )
               : undefined
           }
