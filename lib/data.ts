@@ -648,7 +648,7 @@ export const PROFILE: Profile = {
     linkedin: "https://www.linkedin.com/in/satiya-ganes-b0a315209",
     twitter: "https://twitter.com/satiyaganes06",
     website: "https://www.satiyaganes.site",
-    xing: "https://xing.com/satiyaganes06",
+    xing: "https://www.xing.com/profile/Satiya_Ganes",
     medium: "https://medium.com/@satiyaganes.sg",
     resume: "/CV%20-%20Shatthiya.pdf",
   },
